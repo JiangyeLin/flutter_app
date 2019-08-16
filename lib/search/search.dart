@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'lineList.dart';
-import 'package:flutter_app/model/line_model_entity.dart';
+import 'package:flutter_app/model/lineall_model_entity.dart';
 
 class SearchView extends StatefulWidget {
   @override
@@ -43,7 +43,7 @@ class SearchViewState extends State<SearchView> {
         SizedBox(
           height: 16,
         ),
-        Expanded(child: LineList((list)))
+        Expanded(child: LineListView((list)))
       ],
     );
   }

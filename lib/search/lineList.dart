@@ -3,30 +3,28 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/line/line.dart';
-import 'package:flutter_app/model/line_model_entity.dart';
+import 'package:flutter_app/model/lineall_model_entity.dart';
 
-class LineList extends StatefulWidget {
+class LineListView extends StatefulWidget {
   List<LineModelRtndt> list;
 
-  LineList(List<LineModelRtndt> bean) {
+  LineListView(List<LineModelRtndt> bean) {
     list = bean;
     if (list != null) {
       print("数量${list.length}");
-    } else {
-      print("null");
     }
   }
 
   @override
-  _LineListState createState() {
-    return _LineListState(list);
+  _LineListViewState createState() {
+    return _LineListViewState(list);
   }
 }
 
-class _LineListState extends State<LineList> {
+class _LineListViewState extends State<LineListView> {
   List<LineModelRtndt> _list;
 
-  _LineListState(List<LineModelRtndt> list) {
+  _LineListViewState(List<LineModelRtndt> list) {
     this._list = list;
     if (_list != null) {
       print("哈哈哈${_list.length}");
@@ -85,15 +83,19 @@ class _LineListState extends State<LineList> {
       },
       child: Padding(
         padding: EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-        child: Row(
+        child: Stack(
+          alignment: Alignment.centerLeft,
           children: <Widget>[
+            //线路名
             Text(
               bean.linename + bean.lineremark,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
-            Container(
-              alignment: Alignment.center,
-              margin: EdgeInsets.only(left: 50),
+
+            //线路始末站
+            Positioned(
+                child: Container(
+              margin: EdgeInsets.only(left: 150),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
@@ -117,7 +119,7 @@ class _LineListState extends State<LineList> {
                   ),
                 ],
               ),
-            )
+            ))
           ],
         ),
       ),
