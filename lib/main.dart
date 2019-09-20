@@ -62,10 +62,10 @@ class MainPageState extends State<MainPage> with TickerProviderStateMixin {
         controller: tabController,
         tabs: [
           Tab(
-            text: "111",
+            text: "线路查询",
           ),
           Tab(
-            text: "222",
+            text: "To-Do",
           )
         ],
         labelColor: Colors.blue,

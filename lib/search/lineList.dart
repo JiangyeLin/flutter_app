@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/line/line.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
 
+///线路列表
 class LineListView extends StatefulWidget {
   List<LineModelRtndt> list;
 
@@ -24,12 +25,7 @@ class LineListView extends StatefulWidget {
 class _LineListViewState extends State<LineListView> {
   List<LineModelRtndt> _list;
 
-  _LineListViewState(List<LineModelRtndt> list) {
-    this._list = list;
-    if (_list != null) {
-      print("哈哈哈${_list.length}");
-    }
-  }
+  _LineListViewState(this._list);
 
   @override
   void initState() {
@@ -61,7 +57,6 @@ class _LineListViewState extends State<LineListView> {
     Response response = await dio
         .post(
             "http://gj.wzsjy.com/ajax/app_ajax.aspx?action=getallline&module=jywebbean&t=usFictaHWuU%3D")
-        // ignore: missing_return
         .then((response) {
       Map userMap = json.decode(response.data);
       var result = LineModelEntity.fromJson(userMap);
@@ -88,7 +83,7 @@ class _LineListViewState extends State<LineListView> {
           children: <Widget>[
             //线路名
             Text(
-              bean.linename + bean.lineremark,
+              bean.linename,
               style: TextStyle(fontWeight: FontWeight.bold),
             ),
 
