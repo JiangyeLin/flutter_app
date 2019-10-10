@@ -1,10 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_app/stations/station.dart';
 import 'package:flutter_app/model/line_status_entity.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
-import 'package:dio/dio.dart';
-import 'package:flutter_app/api/api.dart';
+import 'package:flutter_app/http/httputil.dart';
 import 'package:flutter_app/model/lineinfo_entity.dart';
 
 ///线路详情
@@ -34,9 +33,9 @@ class _LineState extends State<Line> {
 
   @override
   void initState() {
-    queryLine(bean.lineid);
+    query(bean.lineid);
 
-    timer = new Timer.periodic(Duration(seconds: 10), callback);
+    //timer = new Timer.periodic(Duration(seconds: 30), callback);
     super.initState();
   }
 
@@ -113,40 +112,18 @@ class _LineState extends State<Line> {
   }
 
   ///查询线路站点信息
-  Future queryLine(int lineId) async {
-    print("开始查询$lineId");
-    Dio dio = new Dio();
-    dio.interceptors.add(LogInterceptor(responseBody: false)); //开启请求日志
-    await dio.post(base_url, queryParameters: {
-      "action": "getline",
-      "module": "jywebbean",
-      "t": "usFictaHWuU=",
-      "lineid": lineId
-    }).then((response) {
-      Map map = json.decode(response.data);
-      var result = LineinfoEntity.fromJson(map);
-
-      setState(() {
-        lineinfoEntity = result;
-      });
+  query(int lineId) async {
+    LineinfoEntity result = await HttpUtil.queryLine(lineId);
+    setState(() {
+      lineinfoEntity = result;
     });
   }
 
   ///查询停站信息
-  Future queryStatus(var lineno) async {
-    Dio dio = new Dio();
-    dio.post(base_url, queryParameters: {
-      "action": "showStatus",
-      "module": "jywebbean",
-      "t": "usFictaHWuU=",
-      "l": lineno
-    }).then((response) {
-      Map map = json.decode(response.data);
-      var result = LineStatusModel.fromJson(map);
-
-      setState(() {
-        buses = result.buses;
-      });
+  queryStatus(var lineno) async {
+    LineStatusModel result = await HttpUtil.queryLineStatus(lineno);
+    setState(() {
+      buses = result.buses;
     });
   }
 }
@@ -192,7 +169,10 @@ class StationsList extends StatelessWidget {
                           FlatButton(
                             child: Text("确定"),
                             onPressed: () {
-                              print("站点跳转");
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                return Station(stations[index].stationname);
+                              }));
                             },
                           )
                         ],

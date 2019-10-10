@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/line/line.dart';
 import 'lineList.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
+import 'package:flutter_app/http/httputil.dart';
 
 class SearchView extends StatefulWidget {
   @override
@@ -89,7 +88,6 @@ class SearchViewState extends State<SearchView> {
                   Overlay.of(context).insert(overlayEntry);
                 },
                 controller: _controller,
-                //inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
               ),
             ),
             RaisedButton(
@@ -101,24 +99,19 @@ class SearchViewState extends State<SearchView> {
         SizedBox(
           height: 40,
         ),
-        Expanded(child: LineListView((list)))
+        Expanded(
+          child: AllLinesView(list),
+        ),
       ],
     );
   }
 
-  ///查询线路
+  ///查询全部线路
   _query() async {
-    Dio dio = new Dio();
-    Response response = await dio
-        .post(
-            "http://gj.wzsjy.com/ajax/app_ajax.aspx?action=getallline&module=jywebbean&t=usFictaHWuU%3D")
-        // ignore: missing_return
-        .then((response) {
-      Map userMap = json.decode(response.data);
-      var result = LineModelEntity.fromJson(userMap);
-      setState(() {
-        list = result.rtndt;
-      });
+    LineModelEntity result = await HttpUtil.queryAllLines();
+    print("查询全部线路${result}");
+    setState(() {
+      list = result.rtndt;
     });
   }
 }

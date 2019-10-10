@@ -1,48 +1,17 @@
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/line/line.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
 
-///线路列表
-class LineListView extends StatefulWidget {
-  List<LineModelRtndt> list;
-
-  LineListView(List<LineModelRtndt> bean) {
-    list = bean;
-    if (list != null) {
-      print("数量${list.length}");
-    }
-  }
-
-  @override
-  _LineListViewState createState() {
-    return _LineListViewState(list);
-  }
-}
-
-class _LineListViewState extends State<LineListView> {
+class AllLinesView extends StatelessWidget {
   List<LineModelRtndt> _list;
 
-  _LineListViewState(this._list);
-
-  @override
-  void initState() {
-    super.initState();
-    _query();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
+  AllLinesView(this._list);
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
         itemBuilder: (context, index) {
-          return _buildItem(_list[index]);
+          return _buildItem(_list[index], context);
         },
         separatorBuilder: (context, index) {
           return Divider(
@@ -52,22 +21,8 @@ class _LineListViewState extends State<LineListView> {
         itemCount: _list == null ? 0 : _list.length);
   }
 
-  _query() async {
-    Dio dio = new Dio();
-    Response response = await dio
-        .post(
-            "http://gj.wzsjy.com/ajax/app_ajax.aspx?action=getallline&module=jywebbean&t=usFictaHWuU%3D")
-        .then((response) {
-      Map userMap = json.decode(response.data);
-      var result = LineModelEntity.fromJson(userMap);
-      setState(() {
-        _list = result.rtndt;
-      });
-    });
-  }
-
   ///list item
-  Widget _buildItem(LineModelRtndt bean) {
+  Widget _buildItem(LineModelRtndt bean, BuildContext context) {
     return InkWell(
       onTap: () {
         print("点击事件" + bean.linename);
