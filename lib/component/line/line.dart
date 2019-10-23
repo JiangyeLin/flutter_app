@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/stations/station.dart';
+import 'package:flutter_app/component/stations/station.dart';
 import 'package:flutter_app/model/line_status_entity.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
 import 'package:flutter_app/http/httputil.dart';
@@ -121,9 +121,9 @@ class _LineState extends State<Line> {
 
   ///查询停站信息
   queryStatus(var lineno) async {
-    LineStatusModel result = await HttpUtil.queryLineStatus(lineno);
+    var results = await HttpUtil.queryLineStatus(lineno);
     setState(() {
-      buses = result.buses;
+      buses = results;
     });
   }
 }
@@ -169,6 +169,7 @@ class StationsList extends StatelessWidget {
                           FlatButton(
                             child: Text("确定"),
                             onPressed: () {
+                              Navigator.of(context).pop();
                               Navigator.push(context, MaterialPageRoute(
                                   builder: (BuildContext context) {
                                 return Station(stations[index].stationname);

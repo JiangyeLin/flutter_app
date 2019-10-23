@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_app/line/line.dart';
+import 'package:flutter_app/component/line/line.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
 
 class AllLinesView extends StatelessWidget {
@@ -25,7 +25,6 @@ class AllLinesView extends StatelessWidget {
   Widget _buildItem(LineModelRtndt bean, BuildContext context) {
     return InkWell(
       onTap: () {
-        print("点击事件" + bean.linename);
         Navigator.push(context,
             MaterialPageRoute(builder: (BuildContext context) {
           return Line(bean);

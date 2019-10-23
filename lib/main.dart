@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'search/search.dart';
+import 'component/search/search.dart';
 
 void main() => runApp(MyApp());
 

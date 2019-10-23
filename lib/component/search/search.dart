@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_app/line/line.dart';
+import 'package:flutter_app/component/line/line.dart';
 import 'lineList.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
 import 'package:flutter_app/http/httputil.dart';
@@ -108,10 +108,9 @@ class SearchViewState extends State<SearchView> {
 
   ///查询全部线路
   _query() async {
-    LineModelEntity result = await HttpUtil.queryAllLines();
-    print("查询全部线路${result}");
+    List<LineModelRtndt> rtndt = await HttpUtil.queryAllLines();
     setState(() {
-      list = result.rtndt;
+      list = rtndt;
     });
   }
 }

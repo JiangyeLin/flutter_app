@@ -23,7 +23,7 @@ class HttpUtil {
 
     print("response$response");
     Map userMap = json.decode(response.data);
-    return LineModelEntity.fromJson(userMap);
+    return LineModelEntity.fromJson(userMap).rtndt;
   }
 
   /// 线路查询
@@ -36,7 +36,7 @@ class HttpUtil {
       "t": teamStr,
       "lineid": lineId
     });
-
+    //
     print("response$response");
     Map map = json.decode(response.data);
     return LineinfoEntity.fromJson(map);
@@ -54,7 +54,7 @@ class HttpUtil {
     print("停站信息$response");
     Map map = json.decode(response.data);
     var result = LineStatusModel.fromJson(map);
-    return result;
+    return result.buses;
   }
 
   /// 根据站点名称查询经停线路
@@ -66,7 +66,9 @@ class HttpUtil {
       "t": teamStr,
       "stname": stationName
     }).then((onValue) {
-      print("response$onValue");
+      print("站点查询$onValue");
+      Map map = json.decode(onValue.data);
+      return LineModelEntity.fromJson(map).rtndt;
     });
   }
 }
