@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/component/search/lineList.dart';
 import 'package:flutter_app/http/httputil.dart';
+import 'package:flutter_app/model/lineall_model_entity.dart';
 
 ///站点查询页面
 class Station extends StatefulWidget {
@@ -14,13 +16,22 @@ class Station extends StatefulWidget {
 
 class _StationState extends State<Station> {
   String _stationName;
+  List<LineModelRtndt> list; //线路列表
+
   _StationState(this._stationName);
 
   @override
   void initState() {
     super.initState();
-    var bean = HttpUtil.queryLineByStation(_stationName);
-    print(bean.length);
+    query();
+  }
+
+  //查询
+  query() async {
+    LineModelEntity bean = await HttpUtil.queryLineByStation(_stationName);
+    setState(() {
+      this.list = bean.rtndt;
+    });
   }
 
   @override
@@ -40,7 +51,7 @@ class _StationState extends State<Station> {
                 TextSpan(text: " 站经停线路：")
               ])),
               Expanded(
-                child: Container(),
+                child: LineListWidget(list),
               ),
             ],
           ),

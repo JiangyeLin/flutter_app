@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_app/component/line/line.dart';
 import 'package:flutter_app/model/lineall_model_entity.dart';
 
-class AllLinesView extends StatelessWidget {
+///线路列表 Widget
+class LineListWidget extends StatelessWidget {
   List<LineModelRtndt> _list;
 
-  AllLinesView(this._list);
+  LineListWidget(this._list);
 
   @override
   Widget build(BuildContext context) {

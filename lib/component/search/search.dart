@@ -100,7 +100,7 @@ class SearchViewState extends State<SearchView> {
           height: 40,
         ),
         Expanded(
-          child: AllLinesView(list),
+          child: LineListWidget(list),
         ),
       ],
     );
